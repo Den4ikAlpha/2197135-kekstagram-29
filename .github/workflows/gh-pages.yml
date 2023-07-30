@@ -14,9 +14,11 @@ jobs:
 
     steps:
       - name: Check Out
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
+        uses: pnpm/action-setup@v2
+        name: Set up Node.js
         with:
-          persist-credentials: false
+          cache: 'pnpm'
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -24,16 +26,12 @@ jobs:
           node-version: '16.x'
 
       - name: Installing Dependencies
-        run: npm ci
-
-      - name: Linting
-        run: npm run lint
-
-      - name: Building
-        run: npm run build
+        run: pnpm i --ignore-scripts
+        name: Build
+        run: pnpm build
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           folder: ./build
