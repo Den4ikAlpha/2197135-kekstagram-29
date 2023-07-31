@@ -11,21 +11,16 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check Out
+      - name: Checkout
         uses: actions/checkout@v3
         uses: pnpm/action-setup@v2
         name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           cache: 'pnpm'
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
-
-      - name: Installing Dependencies
+      - name: Install dependencies
         run: pnpm i --ignore-scripts
         name: Build
         run: pnpm build
